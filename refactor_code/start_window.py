@@ -31,8 +31,6 @@ class Menu:
             inactiveColour=(0, 0, 255), textColour='white'
         )
 
-        # Act as label instead of textbox
-
         self.dropdown = Dropdown(
             self.win, 760, 100, 200, 50, name='Выберите COM-порт',
             choices=get_ports(),
@@ -61,10 +59,8 @@ class Menu:
                     quit()
 
             self.output.setText(self.slider.getValue())
-
             pygame_widgets.update(events)
             pygame.display.update()
-
 
 
 if __name__ == '__main__':

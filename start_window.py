@@ -9,13 +9,22 @@ from check_ports import get_ports
 from main import main
 
 pygame.init()
-win = pygame.display.set_mode((1920, 1080))
+win = pygame.display.set_mode((1920, 1050))
+pygame.display.set_caption("3D LIDAR")
 
-slider = Slider(win, 760, 350, 400, 40, min=0, max=180, step=1)
-label_slider = TextBox(win, 1200, 350, 200, 50, fontSize=30, textVAlign='centre', textHAlign='centre', placeholderText='Выберите шаг', font=pygame.font.SysFont('Times New Roman', 18, 5))
-output = TextBox(win, 915, 430, 100, 50, fontSize=30, textHAlign='centre')
+slider_x_min = Slider(win, 760, 350, 400, 40, min=0, max=180, step=1, initial=10)
+slider_x_max = Slider(win, 760, 350, 400, 40, min=0, max=180, step=1, initial=170)
+#label_slider = TextBox(win, 1200, 350, 200, 50, fontSize=30, textVAlign='centre', textHAlign='centre', placeholderText='Выберите шаг', font=pygame.font.SysFont('Times New Roman', 18, 5))
+output1 = TextBox(win, 650, 350, 70, 50, fontSize=30, textHAlign='centre')
+output2 = TextBox(win, 1200, 350, 70, 50, fontSize=30, textHAlign='centre')
 
-#output.disable()
+
+slider_y_min = Slider(win, 1300, 170, 40, 400, min=0, max=180, step=1, initial=10, vertical=True)
+slider_y_max = Slider(win, 1300, 170, 40, 400, min=0, max=180, step=1, initial=50, vertical=True)
+
+output3 = TextBox(win, 1300, 80, 70, 50, fontSize=30, textHAlign='centre')
+output4 = TextBox(win, 1300, 620, 70, 50, fontSize=30, textHAlign='centre')
+
 
 button_start = Button(
     win,
@@ -25,7 +34,6 @@ button_start = Button(
 )
 
 
-# Act as label instead of textbox
 
 dropdown = Dropdown(
     win, 760, 100, 200, 50, name='Выберите COM-порт',
@@ -34,14 +42,20 @@ dropdown = Dropdown(
 )
 
 
-def print_value():
-    print(dropdown.getSelected())
+def print_value_x():
+   print(dropdown.getSelected())
+
+
+def get_value():
+    val_x = dropdown.getSelected()
+    import main
+    main.port = val_x
 
 
 button = Button(
     win, 990, 100, 100, 50, text='Выбрать',
     margin=20, inactiveColour=(255, 0, 0), colour=(0, 0, 255),
-    radius=5, onClick=print_value, textColour='white',
+    radius=5, onClick=get_value, textColour='white',
     textHAlign='centre', font=pygame.font.SysFont('Times New Roman', 18, 5)
 )
 
@@ -56,7 +70,11 @@ while run:
 
     win.fill((255, 255, 255))
 
-    output.setText(slider.getValue())
+    output1.setText(slider_x_min.getValue())
+    output2.setText(slider_x_max.getValue())
+
+    output3.setText(slider_y_min.getValue())
+    output4.setText(slider_y_max.getValue())
 
     pygame_widgets.update(events)
     pygame.display.update()
